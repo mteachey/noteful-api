@@ -40,7 +40,7 @@ foldersRouter
         )
         .then(folder=>{
             res.status(201)
-            .location(path.posix.join(req.originalUrl + `${folder.id}`))
+            .location(path.posix.join(req.originalUrl + `/${folder.id}`))
             .json(serializedFolder(folder))
         })
         .catch(next)
@@ -66,6 +66,37 @@ foldersRouter
         })
         .get((req, res, next)=>{
             res.json(serializedFolder(res.folder))
+        })
+        .delete((req, res, next)=>{
+            FoldersService.deleteFolder(
+                req.app.get('db'),
+                req.params.folder_id
+            )
+            .then(()=>{
+                res.status(204).end()
+            })
+            .catch(next)
+        })
+        .patch(jsonParser,(req, res, next)=>{
+            const { folder_name } = req.body
+            const folderToUpdate = { folder_name }
+
+            if(!folder_name){
+                return res.status(400).json({
+                    error:{message : `Request body must contain folder_name`}
+                })
+            }
+
+            FoldersService.updateFolder(
+                req.app.get('db'),
+                req.params.folder_id,
+                folderToUpdate
+            )
+            .then(numRowsAffected=>{
+                res.status(204).end()
+            })
+            .catch(next)
+
         })
 
     module.exports = foldersRouter
