@@ -12,10 +12,7 @@ describe('Noteful endpoints', ()=>{
         app.set('db', db)
       })
     
-
     after('disconnect from db',()=>db.destroy())
-
-    
 
     describe(`GET /`,()=>{
         context(`initial test of endpoint`,()=>{
@@ -27,19 +24,9 @@ describe('Noteful endpoints', ()=>{
         })//end context GET/
     })//end describe GET/
 
-    describe(`GET /api/notes`,()=>{
-        context(`Given no articiles`,()=>{
-            it(`responds with 200 and an emptyt list`,()=>{
-                return supertest(app)
-                .get('api/notes')
-                .expect(200,[])
-            })
-        })//end context no artciles
-    })//end of GET /notes
-
     describe(`GET /api/folders`,()=>{
-        context(`Given no articiles`,()=>{
-            it(`responds with 200 and an emptyt list`,()=>{
+        context(`Given no folders`,()=>{
+            it(`responds with 200 and an empty list`,()=>{
                 return supertest(app)
                 .get('api/folders')
                 .expect(200,[])
