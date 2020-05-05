@@ -17,7 +17,6 @@ const serializeNote = note =>({
 notesRouter
     .route('/')
     .get((req, res, next)=>{
-        //res.send('Hello, world!')
         NotesService.getAllNotes(
             req.app.get('db')
         )
